@@ -12,17 +12,47 @@ android {
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [appName: "Android Demo"]
 
         testInstrumentationRunnerArguments clearPackageData: 'true'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            manifestPlaceholders = [buildTypeSuffix: ".debug"]
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [buildTypeSuffix: ""]
         }
     }
+
+    flavorDimensions "mode"
+    productFlavors {
+        dev {
+            dimension "mode"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            manifestPlaceholders = [flavorSuffix: ".dev"]
+        }
+        preprod {
+            dimension "mode"
+            applicationIdSuffix ".pprod"
+            versionNameSuffix "-pprod"
+            manifestPlaceholders = [flavorSuffix: ".pprod"]
+        }
+        prod {
+            dimension "mode"
+            applicationIdSuffix ""
+            versionNameSuffix ""
+            manifestPlaceholders = [flavorSuffix: ""]
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
